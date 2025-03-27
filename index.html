@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student ID Card Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary-color: #3a0ca3;
+            --text-color: #333;
+            --success-color: #06d6a0;
+            --error-color: #ef476f;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+        
+        .form-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 30px;
+            position: relative;
+        }
+        
+        .form-header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .form-header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .form-content {
+            padding: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .form-section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        
+        .form-group {
+            flex: 1 0 100%;
+            padding: 0 10px;
+            margin-bottom: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .form-group.half {
+                flex: 0 0 50%;
+            }
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        label .required {
+            color: var(--error-color);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 15px;
+            transition: var(--transition);
+            background-color: white;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+        
+        .file-upload {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: var(--border-radius);
+            background-color: #f9f9f9;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+        
+        .file-upload i {
+            font-size: 36px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .file-upload input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .file-info {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .file-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 5px;
+            background-color: #f1f1f1;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .file-preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .message {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .success-message {
+            background-color: rgba(6, 214, 160, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+        }
+        
+        .error-message {
+            background-color: rgba(239, 71, 111, 0.1);
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
+        }
+        
+        .form-footer {
+            text-align: center;
+            padding: 20px 30px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            border: 4px solid rgba(67, 97, 238, 0.2);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Student ID Card Registration</h1>
+            <p>Please complete all required fields accurately for your school ID card</p>
+        </div>
+        
+        <div class="form-content">
+            <div class="message success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i> Form submitted successfully! Your ID card request has been received.
+            </div>
+            
+            <div class="message error-message" id="errorMessage"></div>
+            
+            <form id="studentForm" enctype="multipart/form-data" autocomplete="off">
+                <div class="form-section">
+                    <h2>Personal Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name <span class="required">*</span></label>
+                            <input type="text" id="name" name="name" required autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label for="dob">Date of Birth <span class="required">*</span></label>
+                            <input type="date" id="dob" name="dob" required autocomplete="off">
+                        </div>
+                        
+                        <div class="form-group half">
+                            <label for="grade">Grade/Class <span class="required">*</span></label>
+                            <select id="grade" name="grade" required autocomplete="off">
+                                <option value="">Select Grade</option>
+                                <option value="1st Standard">1st Standard</option>
+                                <option value="2nd Standard">2nd Standard</option>
+                                <option value="3rd Standard">3rd Standard</option>
+                                <option value="4th Standard">4th Standard</option>
+                                <option value="5th Standard">5th Standard</option>
+                                <option value="6th Standard">6th Standard</option>
+                                <option value="7th Standard">7th Standard</option>
+                                <option value="8th Standard">8th Standard</option>
+                                <option value="9th Standard">9th Standard</option>
+                                <option value="10th Standard">10th Standard</option>
+                                <option value="11th Standard">11th Standard</option>
+                                <option value="12th Standard">12th Standard</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Contact Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">Address <span class="required">*</span></label>
+                            <textarea id="address" name="address" rows="3" required autocomplete="off"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactNumber">Contact Number <span class="required">*</span></label>
+                            <input type="tel" id="contactNumber" name="contactNumber" required autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Photo Upload</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Student Photo <span class="required">*</span></label>
+                            <div class="file-upload">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & drop your photo here or click to browse</p>
+                                <input type="file" id="studentPhoto" name="studentPhoto" accept="image/jpeg,image/png" required>
+                                <div class="file-info">Accepted formats: JPG, PNG (Max: 5MB)</div>
+                            </div>
+                            <div class="file-preview" id="photoPreview">
+                                <img id="previewImage" src="#" alt="Preview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="loading" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Submitting your information...</p>
+                </div>
+                
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-block">Submit Registration</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Photo preview functionality
+        document.getElementById('studentPhoto').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Check file size
+                if (file.size > 5 * 1024 * 1024) {
+                    document.getElementById('errorMessage').textContent = 'Error: Photo size exceeds 5MB limit.';
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('photoPreview').style.display = 'none';
+                    return;
+                }
+                
+                // Preview the image
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('photoPreview').style.display = 'flex';
+                }
+                reader.readAsDataURL(file);
+                
+                // Update file info text
+                document.querySelector('.file-info').textContent = `Selected: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+            }
+        });
+        
+        // Form submission
+        document.getElementById('studentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            
+            // Hide any existing messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+            
+            try {
+                // Replace with your Google Apps Script Web App URL
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbyjPL11b9R_DXP3WKDuhC33fbPxaONi8-Ak0bvBP6NnbOf6b88kzrAeEEzeNuGPL12n/exec';
+                
+                const response = await fetch(scriptUrl, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                // Hide loading indicator
+                loadingIndicator.style.display = 'none';
+                
+                const result = await response.json();
+                
+                if (result.result === 'success') {
+                    successMessage.style.display = 'block';
+                    document.getElementById('studentForm').reset();
+                    document.getElementById('photoPreview').style.display = 'none';
+                    document.querySelector('.file-info').textContent = 'Accepted formats: JPG, PNG (Max: 5MB)';
+                    // Scroll to top to see success message
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    errorMessage.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${result.message || 'Form submission failed.'}`;
+                    errorMessage.style.display = 'block';
+                    // Scroll to top to see error message
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            } catch (error) {
+                // Hide loading indicator
+                loadingIndicator.style.display = 'none';
+                
+                errorMessage.innerHTML = `<i class="fas fa-exclamation-circle"></i> An error occurred: ${error.message}`;
+                errorMessage.style.display = 'block';
+                // Scroll to top to see error message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+        
+        // Disable autocomplete for all form fields
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.setAttribute('autocomplete', 'off');
+        });
+    </script>
+</body>
+</html>
